@@ -1,11 +1,428 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Node.js on Azure Template</title>
-</head>
-<body>
-	<h1>Node.js and Express Hosted on Microsoft Azure Template</h1>
-	<p>This repository is a template that can be used to create a Node.js and Express website for hosting on Microsoft 
-	Azure.</p>
-</body>
+
+    <head>
+        <title>Basic Web Page</title>
+        <link rel="stylesheet" href="index.css">
+
+        <style>
+
+            body {
+                        line-height: 1.6;
+                        background-color: white;
+                    }
+
+                    h1 {
+                        font-size: 36px;
+                        font-weight: bold;
+                        text-align: center;
+                        margin: 20px 0 30px 0;
+                        color: black;
+                    }
+
+                    form {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-bottom: 30px;
+                    }
+
+                    #search-input {
+                        width: 100%;
+                        max-width: 400px;
+                        padding: 10px 20px;
+                        border: none;
+                        box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+                        border-radius: 18px;
+                        font-size: 18px;
+                        color: #333;
+                    }
+
+                    .search-results {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                        gap: 20px;
+                        justify-content: center;
+                    }
+
+                    .search-result {
+                        border: 1px solid #ccc;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+                    }
+
+                    .search-result img {
+                        width: 100%;
+                        height: auto;
+                        border-bottom: 1px solid #ccc;
+                    }
+
+                    .search-result a {
+                        display: block;
+                        padding: 10px;
+                        text-align: center;
+                        color: #333;
+                        text-decoration: none;
+                        font-size: 16px;
+                        font-weight: bold;
+                        background-color: #eee;
+                    }
+
+                    .search-result a:hover {
+                        background-color: #ddd;
+                    }
+
+                    .favorite-button {
+                        display: block;
+                        width: 100%;
+                        padding: 10px;
+                        background-color: #4caf50;
+                        color: white;
+                        border: none;
+                        border-radius: 0 0 10px 10px;
+                        cursor: pointer;
+                    }
+
+                    .favorite-button:hover {
+                        background-color: #45a049;
+                    }
+
+                    .favorite-button.delete {
+                        background-color: red;
+                        color: white;
+                    }
+
+                    .favorite-button.delete:hover {
+                        background-color: darkred;
+                    }
+
+                    #history-list {
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                    }
+
+                    #history-list li {
+                        display: inline-block;
+                        margin-right: 10px;
+                        background-color: #f1f1f1;
+                        padding: 8px 12px;
+                        border-radius: 20px;
+                        cursor: pointer;
+                        transition: background-color 0.3s ease;
+                    }
+
+                    #history-list li:hover {
+                        background-color: #ddd;
+                    }
+
+
+        </style>
+    </head>
+    <body>
+       <!--create a image search option-->
+        <h1>Type in Any Image To Search</h1>
+        <form action="">
+            <input type="text" id="search-input" placeholder="Search for images">
+            <button id="search-button">Search</button>
+        </form>
+
+        <div class="search-results">
+            <!--Create as many images on the startpage as you want.-->
+            <div class="search=result">
+                <img src="https://images.unsplash.com/photo-1682687981630-cefe9cd73072?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Mountains under the sky">
+                <a href="https://unsplash.com/photos/jTxhUMyPTrE"
+                target="_blank">Under Water</a>
+                <button type="button" class="favorite-button">Favorite</button>
+
+
+
+            </div>
+            <!--copy and paste as they will be used turned into other images later-->
+            <div class="search=result">
+                <img src="https://images.unsplash.com/photo-1682687981630-cefe9cd73072?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Mountains under the sky">
+                <a href="https://unsplash.com/photos/jTxhUMyPTrE"
+                target="_blank">Under Water</a>
+                <button type="button" class="favorite-button">Favorite</button>
+            </div>
+            <!--copy and paste as they will be used turned into other images later-->
+            <div class="search=result">
+                <img src="https://images.unsplash.com/photo-1682687981630-cefe9cd73072?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Mountains under the sky">
+                <a href="https://unsplash.com/photos/jTxhUMyPTrE"
+                target="_blank">Under Water</a>
+                <button type="button" class="favorite-button">Favorite</button>
+            </div>
+
+        </div>
+
+        <div class="favorites-container">
+            <h2>Favorites</h2>
+            <div id="favorites-list" class="search-results"></div>
+        </div>
+
+        <div id="search-history">
+            <h2>Search History</h2>
+            <ul id="history-list"></ul>
+        </div>
+
+
+
+
+
+        <!--load the javascript and json texts-->
+        <script src="index.js"></script>
+        <script src="index.json"></script>
+
+
+        <script>
+            
+            const accessKey = "2GTDIqq4z6K2z7B6cOk3WUP-4YoKpuqK2pjlH-a_pYw";
+
+
+
+
+            //Create const
+            const formE1 = document.querySelector("form");
+            const inputE1 = document.getElementById("search-input");
+            const searchResults = document.querySelector(".search-results");
+            const showMore = document.getElementById("show-more-button");
+
+            const historyList = document.getElementById("history-list");
+
+            let inputData = "";
+            let page = 1;
+
+            async function searchImages(){
+                inputData = inputE1.value;
+                const url = `https://api.unsplash.com/search/photos?page=${page}&query=${inputData}&client_id=${accessKey}`;
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const results = data.results;
+
+                if (page === 1){
+                    searchResults.innerHTML = "";
+
+                }
+
+
+                addToHistory(inputData);
+
+
+                // uses map function over the erray result
+                results.map((result) => {
+                    const imageWrapper = document.createElement('div');
+                    imageWrapper.classList.add("search-result");
+
+                    const image = document.createElement('img');
+                    image.src = result.urls.small;
+                    image.alt = result.alt_description;
+
+                    const imageLink = document.createElement('a');
+                    imageLink.href = result.links.html;
+                    imageLink.target = "_blank";
+                    imageLink.textContent = result.alt_description;
+
+                    const favoriteButton = document.createElement("button");
+                    favoriteButton.type = "button";
+                    favoriteButton.classList.add("favorite-button");
+                    favoriteButton.textContent = "Favorite";
+                    favoriteButton.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        addFavorite(result);
+                    });
+
+                    imageWrapper.appendChild(image);
+                    imageWrapper.appendChild(imageLink);
+                    imageWrapper.appendChild(favoriteButton);
+                    searchResults.appendChild(imageWrapper);
+                });
+
+
+
+
+
+
+
+                page++;
+                if(page > 1) {
+                    showMore.style.display = "block";
+                }
+                
+            }
+
+            //event listener error if you place the js and json before the search function. Placing it after fixes
+            formE1.addEventListener("submit", (event) => {
+                event.preventDefault();
+                page = 1;
+                searchImages();
+            });
+
+            showMore.addEventListener("click", (event) => {
+                
+                searchImages();
+            });
+
+            // Function to add a favorite
+            function addFavorite(result) {
+                const imageUrl = result.urls.small;
+                const imageAlt = result.alt_description;
+                const imageLink = result.links.html;
+
+                const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+                favorites.push({ src: imageUrl, alt: imageAlt, link: imageLink });
+                localStorage.setItem("favorites", JSON.stringify(favorites));
+
+                displayFavorites(); // Update the displayed favorites
+            }          
+
+            function displayFavorites() {
+                const favoritesListContainer = document.getElementById("favorites-list");
+                favoritesListContainer.innerHTML = ""; // Clear previous content
+
+                const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+                favorites.forEach((favorite, index) => {
+                    const favoriteWrapper = document.createElement("div");
+                    favoriteWrapper.classList.add("search-result");
+
+                    const favoriteImage = document.createElement("img");
+                    favoriteImage.src = favorite.src;
+                    favoriteImage.alt = favorite.alt;
+
+                    const favoriteLink = document.createElement("a");
+                    favoriteLink.href = favorite.link;
+                    favoriteLink.textContent = favorite.alt;
+
+                    const deleteButton = document.createElement("button");
+                    deleteButton.type = "button";
+                    deleteButton.classList.add("favorite-button", "delete"); // Add the "delete" class
+                    deleteButton.textContent = "Delete";
+                    deleteButton.addEventListener("click", function () {
+                        removeFavorite(index);
+                    });
+
+                    favoriteWrapper.appendChild(favoriteImage);
+                    favoriteWrapper.appendChild(favoriteLink);
+                    favoriteWrapper.appendChild(deleteButton);
+                    favoritesListContainer.appendChild(favoriteWrapper);
+                });
+
+
+                toggleView("favorites"); // Show the favorites container
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                displayFavorites();
+            });
+
+            function removeFavorite(index) {
+                const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+                
+                // Remove the favorite at the specified index
+                favorites.splice(index, 1);
+                
+                localStorage.setItem("favorites", JSON.stringify(favorites));
+                displayFavorites(); // Update the displayed favorites
+            }
+
+
+
+
+            // search history
+
+
+            function addToHistory(term) {
+                // Get existing history from localStorage or initialize an empty array
+                const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+                // Add the new term to the history
+                history.push(term);
+
+                // Limit the history to a certain number of items (e.g., 5)
+                const limitedHistory = history.slice(-5);
+
+                // Save the updated history back to localStorage
+                localStorage.setItem("searchHistory", JSON.stringify(limitedHistory));
+
+                // Update the displayed search history
+                displaySearchHistory();
+            }
+
+            function displaySearchHistory() {
+                // Clear the previous history
+                historyList.innerHTML = "";
+
+                // Get the current search history from localStorage
+                const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+                // Display each search term in the history
+                history.forEach((term) => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = term;
+                    listItem.addEventListener("click", function () {
+                        // When a history item is clicked, perform a new search with that term
+                        inputE1.value = term;
+                        searchImages();
+                    });
+                    historyList.appendChild(listItem);
+                });
+            }
+
+            // Display the search history when the page loads
+            document.addEventListener("DOMContentLoaded", function () {
+                displaySearchHistory();
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // connection to mongodb database
+
+            const { MongoClient, ServerApiVersion } = require('mongodb');
+            const uri = "mongodb+srv://DaRahul:Mypassword02@cluster0.1fczolg.mongodb.net/?retryWrites=true&w=majority";
+            // Create a MongoClient with a MongoClientOptions object to set the Stable API version
+            const client = new MongoClient(uri, {
+            serverApi: {
+                version: ServerApiVersion.v1,
+                strict: true,
+                deprecationErrors: true,
+            }
+            });
+            async function run() {
+            try {
+                // Connect the client to the server	(optional starting in v4.7)
+                await client.connect();
+                // Send a ping to confirm a successful connection
+                await client.db("admin").command({ ping: 1 });
+                console.log("Pinged your deployment. You successfully connected to MongoDB!");
+            } finally {
+                // Ensures that the client will close when you finish/error
+                await client.close();
+            }
+            }
+            run().catch(console.dir);
+
+
+
+
+
+
+        </script>
+
+
+    </body>
 </html>
