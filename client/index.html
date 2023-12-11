@@ -116,6 +116,113 @@
                     #history-list li:hover {
                         background-color: #ddd;
                     }
+                    .modal {
+                        display: none;
+                        position: fixed;
+                        z-index: 1;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        overflow: auto;
+                        background-color: rgba(0, 0, 0, 0.7);
+                    }
+
+                    /* Style the modal content */
+                    .modal-content {
+                        background-color: #fefefe;
+                        margin: 10% auto;
+                        padding: 20px;
+                        border: 1px solid #888;
+                        width: 60%;
+                        text-align: center;
+                        font-size: 40px;
+                    }
+
+                    /* Style the close button */
+                    .close {
+                        color: #aaa;
+                        float: right;
+                        font-size: 28px;
+                        font-weight: bold;
+                    }
+
+                    .close:hover, .close:focus {
+                        color: black;
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+
+                    /* Style the start button */
+                    #startButton {
+                        display: block;
+                        width: 50%; 
+                        margin: 20px auto; 
+                        padding: 15px;
+                        background-color: #4caf50;
+                        color: white;
+                        border: none;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        font-size: 40px; 
+                    }
+
+                    #startButton:hover {
+                        background-color: #45a049;
+                    }
+
+                    #show-more-button {
+                        display: block;
+                        width: 10%; 
+                        padding: 15px; 
+                        background-color: black;
+                        color: white;
+                        border: none;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        font-size: 18px; 
+                    }
+
+                    #show-more-button:hover {
+                        background-color: #45a049;
+                    }
+
+                    #feedback {
+                        font-size: 20px; 
+                        
+                    }
+
+                    label[for="feedback"] {
+                        font-size: 40px; 
+                        
+                    }
+
+                    label[for="rating"] {
+                        font-size: 40px; 
+                        
+                    }
+                                
+
+                    #feedback-form-container {
+                        background-color: #f2f2f2; /* Light gray background color */
+                        padding: 20px; /* Add padding to the container */
+                        border-radius: 10px; /* Add rounded corners for a nicer appearance */
+                    }
+    
+                    #feedback-form-container button {
+                        font-size: 20px; /* Adjust the font size as needed */
+                        padding: 10px 20px; /* Adjust padding for height and width */
+                        /* Add any other styling properties as needed */
+                    }
+
+                    #rating {
+                        width: 50px; /* Adjust the width as needed */
+                        height: 40px;
+                        /* Add any other styling properties as needed */
+                    }
+
+
+
 
 
         </style>
@@ -156,6 +263,8 @@
 
         </div>
 
+        <button id="show-more-button" style="display: none;">Show More</button>
+
         <div class="favorites-container">
             <h2>Favorites</h2>
             <div id="favorites-list" class="search-results"></div>
@@ -166,8 +275,33 @@
             <ul id="history-list"></ul>
         </div>
 
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Welcome To The Image Finder 9000</h2>
+                <p>Instructions: To start using this website, type any image you would like to search in the text box and click "search." You will then be greeted with
+                    many choices of images in which you can favorite or delete. Click Start to get begin.
+                </p>
+                <button id="startButton" onclick="closeModal()">Start</button>
+            </div>
+        </div>
 
 
+
+                <!-- Add this HTML form within the body of your existing code -->
+        <div id="feedback-form-container">
+            <h2>Feedback Form</h2>
+            <form id="feedback-form">
+                <label for="feedback">Provide your feedback:</label>
+                <textarea id="feedback" name="feedback" rows="4" cols="50" required></textarea>
+                <br>
+                <label for="rating">Rate Your Experience (1-10):</label>
+                <input type="number" id="rating" name="rating" min="1" max="10" required>
+                <br>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+        
 
 
         <!--load the javascript and json texts-->
@@ -341,11 +475,8 @@
                 // Add the new term to the history
                 history.push(term);
 
-                // Limit the history to a certain number of items (e.g., 5)
-                const limitedHistory = history.slice(-5);
-
                 // Save the updated history back to localStorage
-                localStorage.setItem("searchHistory", JSON.stringify(limitedHistory));
+                localStorage.setItem("searchHistory", JSON.stringify(history));
 
                 // Update the displayed search history
                 displaySearchHistory();
@@ -371,6 +502,7 @@
                 });
             }
 
+
             // Display the search history when the page loads
             document.addEventListener("DOMContentLoaded", function () {
                 displaySearchHistory();
@@ -390,32 +522,52 @@
 
 
 
-            // connection to mongodb database
+            
 
-            const { MongoClient, ServerApiVersion } = require('mongodb');
-            const uri = "mongodb+srv://DaRahul:Mypassword02@cluster0.1fczolg.mongodb.net/?retryWrites=true&w=majority";
-            // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-            const client = new MongoClient(uri, {
-            serverApi: {
-                version: ServerApiVersion.v1,
-                strict: true,
-                deprecationErrors: true,
+
+
+            function closeModal() {
+            const modal = document.getElementById('myModal');
+            modal.style.display = 'none';
             }
+
+           // Display the modal when the page loads
+            window.onload = function () {
+                const modal = document.getElementById('myModal');
+                modal.style.display = 'block';
+
+                // Trigger a click event on the hidden button to show the modal
+                document.getElementById('show-more-button').click();
+            };
+
+
+
+
+
+            
+            // feed back information code
+            document.addEventListener('DOMContentLoaded', function () {
+                const feedbackForm = document.getElementById('feedback-form');
+                feedbackForm.addEventListener('submit', handleFeedbackSubmission);
             });
-            async function run() {
-            try {
-                // Connect the client to the server	(optional starting in v4.7)
-                await client.connect();
-                // Send a ping to confirm a successful connection
-                await client.db("admin").command({ ping: 1 });
-                console.log("Pinged your deployment. You successfully connected to MongoDB!");
-            } finally {
-                // Ensures that the client will close when you finish/error
-                await client.close();
-            }
-            }
-            run().catch(console.dir);
 
+            function handleFeedbackSubmission(event) {
+                event.preventDefault();
+
+                const feedbackText = document.getElementById('feedback').value;
+                const rating = document.getElementById('rating').value;
+
+                // Store feedback data as needed (e.g., send to server, save to localStorage, etc.)
+                // For this example, let's log the feedback to the console
+                console.log('Feedback:', feedbackText);
+                console.log('Rating:', rating);
+
+                // Optionally, you can display a thank-you message or update the UI
+                alert('Thank you for your feedback!');
+                
+                // Clear the form after submission
+                document.getElementById('feedback-form').reset();
+            }
 
 
 
